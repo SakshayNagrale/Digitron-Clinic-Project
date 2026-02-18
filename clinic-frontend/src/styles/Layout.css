@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  height: 100vh;        /* FIXED height */
+  overflow: hidden;    /* Prevent double scroll */
+}
+
+.layout-content {
+  margin-left: 240px;
+  width: calc(100% - 240px);
+  height: 100vh;       /* FIX */
+  background: #f4f7fb;
+  padding: 20px 30px;
+  overflow-y: auto;    /* Scroll only when needed */
+}

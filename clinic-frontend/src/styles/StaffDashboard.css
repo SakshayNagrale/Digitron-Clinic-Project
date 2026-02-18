@@ -1,0 +1,142 @@
+/* ================================
+   Clinic Staff Dashboard (Scoped)
+   ================================ */
+
+.staff-dashboard-page {
+  min-height: 100vh;
+  padding: 30px 25px;
+  background: #f4f7fb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header */
+.staff-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  flex-wrap: wrap;
+}
+
+.staff-dashboard-header-left {
+  max-width: 600px;
+}
+
+.staff-dashboard-title {
+  font-size: 2.3rem;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.staff-dashboard-subtitle {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 1.05rem;
+}
+
+/* Staff Info */
+.staff-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.staff-avatar {
+  font-size: 1.8rem;
+}
+
+.staff-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.staff-name {
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.staff-role {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Stats */
+.staff-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.stat-label {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Actions */
+.staff-dashboard-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.action-card {
+  background: white;
+  border-radius: 16px;
+  padding: 26px 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.action-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.action-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.action-desc {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .staff-dashboard-header {
+    gap: 20px;
+  }
+
+  .staff-dashboard-title {
+    font-size: 1.9rem;
+  }
+}

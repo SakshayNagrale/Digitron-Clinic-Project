@@ -1,0 +1,229 @@
+/* ===============================
+   Patient Profile – Final CSS
+   =============================== */
+
+.patient-profile-page {
+  padding: 30px 20px;
+  background: #f4f7fb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header */
+.patient-profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.patient-profile-header h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.patient-profile-header p {
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* Cards */
+.patient-info-card,
+.treatment-card,
+.treatment-history-card {
+  max-width: 900px;
+  margin: 0 auto 25px;
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.patient-info-card h2,
+.treatment-card h2,
+.treatment-history-card h2 {
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+  color: #1f2933;
+}
+
+/* Patient Info */
+.patient-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  color: #374151;
+}
+
+/* Treatment Form */
+.treatment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.treatment-form input,
+.treatment-form textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+.treatment-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.treatment-form button {
+  margin-top: 10px;
+  align-self: flex-start;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.treatment-form button:hover {
+  background: #2563eb;
+}
+
+/* Treatment History */
+.treatment-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  border-left: 4px solid #3b82f6;
+}
+
+.treatment-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.treatment-date {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.delete-treatment-btn {
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.delete-treatment-btn:hover {
+  background: #dc2626;
+}
+
+.empty-text {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Loading */
+.patient-profile-loading {
+  padding: 60px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patient-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-profile-header h1 {
+    font-size: 2rem;
+  }
+}
+/* ===============================
+   Delete Confirmation Modal
+   =============================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  max-width: 420px;
+  width: 90%;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  animation: modalFade 0.2s ease;
+}
+
+.modal-box h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #1f2933;
+}
+
+.modal-box p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-cancel-btn {
+  background: #e5e7eb;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-cancel-btn:hover {
+  background: #d1d5db;
+}
+
+.modal-delete-btn {
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-delete-btn:hover {
+  background: #dc2626;
+}
+
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+

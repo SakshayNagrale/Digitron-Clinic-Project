@@ -1,0 +1,212 @@
+/* ===============================
+   Patient List – Scoped Styles
+   =============================== */
+
+.patient-list-page {
+  background: #f4f7fb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header */
+.patient-list-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.patient-list-title {
+  font-size: 2.3rem;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.patient-list-subtitle {
+  margin-top: 6px;
+  font-size: 1.05rem;
+  color: #6b7280;
+}
+
+/* Search */
+.patient-search-box {
+  max-width: 360px;
+  margin: 0 auto 20px;
+}
+
+.patient-search-box input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+}
+
+/* States */
+.patient-list-state {
+  background: white;
+  padding: 40px;
+  border-radius: 14px;
+  text-align: center;
+  font-size: 1.05rem;
+  color: #4b5563;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.patient-list-error {
+  background: #fdecea;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 8px;
+  max-width: 900px;
+  margin: 0 auto 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Table */
+.patient-list-table-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.patient-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.patient-list-table thead {
+  background: #f1f5f9;
+}
+
+.patient-list-table th,
+.patient-list-table td {
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.patient-list-table th {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.patient-list-table tbody tr {
+  border-top: 1px solid #e5e7eb;
+}
+
+.patient-list-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Actions */
+.patient-list-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.patient-list-view-btn {
+  padding: 6px 16px;
+  background: #3b82f6;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.patient-list-view-btn:hover {
+  background: #2563eb;
+}
+
+.patient-list-delete-btn {
+  padding: 6px 16px;
+  background: #ef4444;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.patient-list-delete-btn:hover {
+  background: #dc2626;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 14px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box h3 {
+  margin-bottom: 10px;
+  color: #1f2933;
+}
+
+.modal-box p {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal-cancel-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  cursor: pointer;
+}
+
+.modal-delete-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-delete-btn:hover {
+  background: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patient-list-title {
+    font-size: 1.9rem;
+  }
+
+  .patient-list-actions {
+    flex-direction: column;
+  }
+}

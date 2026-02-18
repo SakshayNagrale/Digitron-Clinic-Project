@@ -1,0 +1,83 @@
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: #1f2933;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #374151;
+}
+
+.clinic-logo {
+  font-size: 2rem;
+}
+
+.clinic-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.clinic-role {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.sidebar-menu {
+  flex: 1;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-link {
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.sidebar-link:hover {
+  background: #374151;
+}
+
+.sidebar-link.active {
+  background: #2563eb;
+  color: white;
+}
+
+.sidebar-link.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid #374151;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
