@@ -5,15 +5,16 @@ import "../styles/StaffDashboard.css";
 const StaffDashboard = () => {
   const navigate = useNavigate();
 
-  const staff = {
-    name: "Clinic Staff",
-    role: "Reception",
-  };
+  const staffName = localStorage.getItem("staff_name") || "Clinic Staff";
+  const staffRole = localStorage.getItem("staff_role") || "Reception";
 
   const [stats, setStats] = useState({
     totalPatients: 0,
     totalTreatments: 0,
     todayTreatments: 0,
+    todayAppointments: 0,
+    totalAppointments: 0,
+    totalDoctors: 0,
   });
 
   const [loading, setLoading] = useState(true);
@@ -45,18 +46,17 @@ const StaffDashboard = () => {
           </p>
         </div>
         <div className="dashboard-topbar-right">
-          <div className="dashboard-avatar">
-            {staff.name.charAt(0)}
-          </div>
+          <div className="dashboard-avatar">{staffName.charAt(0)}</div>
           <div className="dashboard-user-meta">
-            <span className="dashboard-user-name">{staff.name}</span>
-            <span className="dashboard-user-role">{staff.role}</span>
+            <span className="dashboard-user-name">{staffName}</span>
+            <span className="dashboard-user-role">{staffRole}</span>
           </div>
         </div>
       </header>
 
       {/* Stat Cards */}
       <section className="dashboard-stats">
+        {/* Total Patients */}
         <div className="dashboard-stat-card">
           <div className="dashboard-stat-icon dashboard-stat-icon--teal">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -74,6 +74,25 @@ const StaffDashboard = () => {
           </div>
         </div>
 
+        {/* Total Doctors */}
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon dashboard-stat-icon--indigo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+              <line x1="12" y1="14" x2="12" y2="17" />
+              <line x1="10.5" y1="15.5" x2="13.5" y2="15.5" />
+            </svg>
+          </div>
+          <div className="dashboard-stat-body">
+            <span className="dashboard-stat-value">
+              {loading ? "--" : stats.totalDoctors}
+            </span>
+            <span className="dashboard-stat-label">Total Doctors</span>
+          </div>
+        </div>
+
+        {/* Today's Appointments */}
         <div className="dashboard-stat-card">
           <div className="dashboard-stat-icon dashboard-stat-icon--amber">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -84,13 +103,16 @@ const StaffDashboard = () => {
             </svg>
           </div>
           <div className="dashboard-stat-body">
-            <span className="dashboard-stat-value">--</span>
-            <span className="dashboard-stat-label">Appointments</span>
+            <span className="dashboard-stat-value">
+              {loading ? "--" : stats.todayAppointments}
+            </span>
+            <span className="dashboard-stat-label">Today's Appointments</span>
           </div>
         </div>
 
+        {/* Total Treatments */}
         <div className="dashboard-stat-card">
-          <div className="dashboard-stat-icon dashboard-stat-icon--indigo">
+          <div className="dashboard-stat-icon dashboard-stat-icon--rose">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
             </svg>
@@ -100,19 +122,6 @@ const StaffDashboard = () => {
               {loading ? "--" : stats.totalTreatments}
             </span>
             <span className="dashboard-stat-label">Treatments</span>
-          </div>
-        </div>
-
-        <div className="dashboard-stat-card">
-          <div className="dashboard-stat-icon dashboard-stat-icon--rose">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-              <line x1="1" y1="10" x2="23" y2="10" />
-            </svg>
-          </div>
-          <div className="dashboard-stat-body">
-            <span className="dashboard-stat-value">--</span>
-            <span className="dashboard-stat-label">Pending Bills</span>
           </div>
         </div>
       </section>
@@ -159,8 +168,27 @@ const StaffDashboard = () => {
             </svg>
           </button>
 
-          <button className="dashboard-action-card dashboard-action-card--disabled">
+          <button className="dashboard-action-card" onClick={() => navigate("/doctors")}>
             <div className="dashboard-action-icon dashboard-action-icon--indigo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+                <line x1="12" y1="14" x2="12" y2="17" />
+                <line x1="10.5" y1="15.5" x2="13.5" y2="15.5" />
+              </svg>
+            </div>
+            <div className="dashboard-action-text">
+              <span className="dashboard-action-title">Doctors</span>
+              <span className="dashboard-action-desc">Manage doctor profiles</span>
+            </div>
+            <svg className="dashboard-action-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
+
+          <button className="dashboard-action-card" onClick={() => navigate("/appointments")}>
+            <div className="dashboard-action-icon dashboard-action-icon--green">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
@@ -172,7 +200,10 @@ const StaffDashboard = () => {
               <span className="dashboard-action-title">Appointments</span>
               <span className="dashboard-action-desc">View and schedule appointments</span>
             </div>
-            <span className="dashboard-action-soon">Coming Soon</span>
+            <svg className="dashboard-action-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
           </button>
 
           <button className="dashboard-action-card dashboard-action-card--disabled">

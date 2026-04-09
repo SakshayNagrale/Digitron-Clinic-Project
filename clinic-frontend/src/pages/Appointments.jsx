@@ -10,6 +10,7 @@ const STATUS_COLORS = {
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [patients, setPatients] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +23,7 @@ const Appointments = () => {
 
   const [formData, setFormData] = useState({
     patient_id: "",
-    doctor_name: "",
+    doctor_id: "",
     appointment_date: "",
     appointment_time: "",
     reason: "",
@@ -34,6 +35,7 @@ const Appointments = () => {
   useEffect(() => {
     fetchAppointments();
     fetchPatients();
+    fetchDoctors();
   }, []);
 
   const fetchAppointments = async () => {
@@ -59,6 +61,14 @@ const Appointments = () => {
     } catch {}
   };
 
+  const fetchDoctors = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/doctors");
+      const data = await res.json();
+      setDoctors(data);
+    } catch {}
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setFormError("");
@@ -68,7 +78,7 @@ const Appointments = () => {
     setEditingAppointment(null);
     setFormData({
       patient_id: "",
-      doctor_name: "",
+      doctor_id: "",
       appointment_date: "",
       appointment_time: "",
       reason: "",
@@ -82,7 +92,7 @@ const Appointments = () => {
     setEditingAppointment(appt);
     setFormData({
       patient_id: appt.patient_id,
-      doctor_name: appt.doctor_name,
+      doctor_id: appt.doctor_id || "",
       appointment_date: appt.appointment_date,
       appointment_time: appt.appointment_time,
       reason: appt.reason || "",
@@ -96,7 +106,12 @@ const Appointments = () => {
     e.preventDefault();
     setFormError("");
 
-    if (!formData.patient_id || !formData.doctor_name || !formData.appointment_date || !formData.appointment_time) {
+    if (
+      !formData.patient_id ||
+      !formData.doctor_id ||
+      !formData.appointment_date ||
+      !formData.appointment_time
+    ) {
       setFormError("Please fill in all required fields");
       return;
     }
@@ -119,7 +134,9 @@ const Appointments = () => {
 
       setShowForm(false);
       fetchAppointments();
-      showSuccess(editingAppointment ? "Appointment updated!" : "Appointment scheduled!");
+      showSuccess(
+        editingAppointment ? "Appointment updated!" : "Appointment scheduled!"
+      );
     } catch (err) {
       setFormError(err.message);
     } finally {
@@ -151,7 +168,7 @@ const Appointments = () => {
     const matchSearch =
       !term ||
       a.patient_name?.toLowerCase().includes(term) ||
-      a.doctor_name?.toLowerCase().includes(term);
+      a.doctor_display_name?.toLowerCase().includes(term);
     const matchStatus = filterStatus === "all" || a.status === filterStatus;
     return matchSearch && matchStatus;
   });
@@ -165,7 +182,8 @@ const Appointments = () => {
         <div className="ap-header-left">
           <h1 className="ap-title">Appointments</h1>
           <p className="ap-subtitle">
-            {filtered.length} {filtered.length === 1 ? "appointment" : "appointments"} found
+            {filtered.length}{" "}
+            {filtered.length === 1 ? "appointment" : "appointments"} found
           </p>
         </div>
         <button className="ap-add-btn" onClick={openAddForm}>
@@ -265,14 +283,24 @@ const Appointments = () => {
             </thead>
             <tbody>
               {filtered.map((appt) => (
-                <tr key={appt.id} className={appt.appointment_date === today ? "ap-row--today" : ""}>
+                <tr
+                  key={appt.id}
+                  className={appt.appointment_date === today ? "ap-row--today" : ""}
+                >
                   <td className="ap-cell-patient">
                     <div className="ap-name-avatar">
                       {appt.patient_name?.charAt(0).toUpperCase()}
                     </div>
                     {appt.patient_name}
                   </td>
-                  <td className="ap-cell-doctor">{appt.doctor_name}</td>
+                  <td className="ap-cell-doctor">
+                    <div>
+                      <div>{appt.doctor_display_name}</div>
+                      {appt.doctor_specialization && (
+                        <div className="ap-doctor-spec">{appt.doctor_specialization}</div>
+                      )}
+                    </div>
+                  </td>
                   <td className="ap-cell-date">
                     {appt.appointment_date === today ? (
                       <span className="ap-today-tag">Today</span>
@@ -297,7 +325,10 @@ const Appointments = () => {
                     </button>
                     <button
                       className="ap-btn ap-btn--delete"
-                      onClick={() => { setSelectedId(appt.id); setShowDeleteModal(true); }}
+                      onClick={() => {
+                        setSelectedId(appt.id);
+                        setShowDeleteModal(true);
+                      }}
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="3 6 5 6 21 6" />
@@ -332,7 +363,9 @@ const Appointments = () => {
                     {editingAppointment ? "Edit Appointment" : "New Appointment"}
                   </h2>
                   <p className="ap-modal-subtitle">
-                    {editingAppointment ? "Update appointment details" : "Schedule a new appointment"}
+                    {editingAppointment
+                      ? "Update appointment details"
+                      : "Schedule a new appointment"}
                   </p>
                 </div>
               </div>
@@ -346,40 +379,90 @@ const Appointments = () => {
 
             <form className="ap-form" onSubmit={handleSubmit}>
               <div className="ap-form-row">
+                {/* Patient dropdown */}
                 <div className="ap-form-field">
                   <label className="ap-form-label">Patient *</label>
-                  <select className="ap-form-select" name="patient_id" value={formData.patient_id} onChange={handleChange} required>
+                  <select
+                    className="ap-form-select"
+                    name="patient_id"
+                    value={formData.patient_id}
+                    onChange={handleChange}
+                    required
+                  >
                     <option value="">Select patient</option>
                     {patients.map((p) => (
-                      <option key={p.id} value={p.id}>{p.patientName}</option>
+                      <option key={p.id} value={p.id}>
+                        {p.patientName}
+                      </option>
                     ))}
                   </select>
                 </div>
+
+                {/* Doctor dropdown — from DB */}
                 <div className="ap-form-field">
-                  <label className="ap-form-label">Doctor Name *</label>
-                  <input className="ap-form-input" type="text" name="doctor_name" placeholder="Dr. Name" value={formData.doctor_name} onChange={handleChange} required />
+                  <label className="ap-form-label">Doctor *</label>
+                  <select
+                    className="ap-form-select"
+                    name="doctor_id"
+                    value={formData.doctor_id}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select doctor</option>
+                    {doctors.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name} — {d.specialization}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
               <div className="ap-form-row">
                 <div className="ap-form-field">
                   <label className="ap-form-label">Date *</label>
-                  <input className="ap-form-input" type="date" name="appointment_date" value={formData.appointment_date} onChange={handleChange} required />
+                  <input
+                    className="ap-form-input"
+                    type="date"
+                    name="appointment_date"
+                    value={formData.appointment_date}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="ap-form-field">
                   <label className="ap-form-label">Time *</label>
-                  <input className="ap-form-input" type="time" name="appointment_time" value={formData.appointment_time} onChange={handleChange} required />
+                  <input
+                    className="ap-form-input"
+                    type="time"
+                    name="appointment_time"
+                    value={formData.appointment_time}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="ap-form-row">
                 <div className="ap-form-field">
                   <label className="ap-form-label">Reason</label>
-                  <input className="ap-form-input" type="text" name="reason" placeholder="Reason for visit" value={formData.reason} onChange={handleChange} />
+                  <input
+                    className="ap-form-input"
+                    type="text"
+                    name="reason"
+                    placeholder="Reason for visit"
+                    value={formData.reason}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="ap-form-field">
                   <label className="ap-form-label">Status</label>
-                  <select className="ap-form-select" name="status" value={formData.status} onChange={handleChange}>
+                  <select
+                    className="ap-form-select"
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                  >
                     <option value="scheduled">Scheduled</option>
                     <option value="completed">Completed</option>
                     <option value="cancelled">Cancelled</option>
@@ -390,16 +473,34 @@ const Appointments = () => {
               {formError && (
                 <div className="ap-form-error">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="15" y1="9" x2="9" y2="15" />
+                    <line x1="9" y1="9" x2="15" y2="15" />
                   </svg>
                   {formError}
                 </div>
               )}
 
               <div className="ap-form-actions">
-                <button type="button" className="ap-form-btn ap-form-btn--cancel" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="ap-form-btn ap-form-btn--save" disabled={formLoading}>
-                  {formLoading ? <span className="ap-form-spinner" /> : (editingAppointment ? "Update" : "Schedule")}
+                <button
+                  type="button"
+                  className="ap-form-btn ap-form-btn--cancel"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="ap-form-btn ap-form-btn--save"
+                  disabled={formLoading}
+                >
+                  {formLoading ? (
+                    <span className="ap-form-spinner" />
+                  ) : editingAppointment ? (
+                    "Update"
+                  ) : (
+                    "Schedule"
+                  )}
                 </button>
               </div>
             </form>
@@ -419,10 +520,19 @@ const Appointments = () => {
               </svg>
             </div>
             <h3 className="ap-del-title">Delete Appointment</h3>
-            <p className="ap-del-text">Are you sure you want to delete this appointment? This cannot be undone.</p>
+            <p className="ap-del-text">
+              Are you sure you want to delete this appointment? This cannot be undone.
+            </p>
             <div className="ap-del-actions">
-              <button className="ap-del-btn ap-del-btn--cancel" onClick={() => setShowDeleteModal(false)}>Cancel</button>
-              <button className="ap-del-btn ap-del-btn--confirm" onClick={handleDelete}>Delete</button>
+              <button
+                className="ap-del-btn ap-del-btn--cancel"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button className="ap-del-btn ap-del-btn--confirm" onClick={handleDelete}>
+                Delete
+              </button>
             </div>
           </div>
         </div>

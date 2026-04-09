@@ -102,25 +102,11 @@
   flex-shrink: 0;
 }
 
-.dashboard-stat-icon--teal {
-  background: #e6f5f2;
-  color: #0d9488;
-}
-
-.dashboard-stat-icon--amber {
-  background: #fef3c7;
-  color: #d97706;
-}
-
-.dashboard-stat-icon--indigo {
-  background: #e0e7ff;
-  color: #6366f1;
-}
-
-.dashboard-stat-icon--rose {
-  background: #ffe4e6;
-  color: #e11d48;
-}
+.dashboard-stat-icon--teal   { background: #e6f5f2; color: #0d9488; }
+.dashboard-stat-icon--amber  { background: #fef3c7; color: #d97706; }
+.dashboard-stat-icon--indigo { background: #e0e7ff; color: #6366f1; }
+.dashboard-stat-icon--rose   { background: #ffe4e6; color: #e11d48; }
+.dashboard-stat-icon--green  { background: #dcfce7; color: #16a34a; }
 
 .dashboard-stat-body {
   display: flex;
@@ -198,25 +184,11 @@
   flex-shrink: 0;
 }
 
-.dashboard-action-icon--teal {
-  background: #e6f5f2;
-  color: #0d9488;
-}
-
-.dashboard-action-icon--amber {
-  background: #fef3c7;
-  color: #d97706;
-}
-
-.dashboard-action-icon--indigo {
-  background: #e0e7ff;
-  color: #6366f1;
-}
-
-.dashboard-action-icon--rose {
-  background: #ffe4e6;
-  color: #e11d48;
-}
+.dashboard-action-icon--teal   { background: #e6f5f2; color: #0d9488; }
+.dashboard-action-icon--amber  { background: #fef3c7; color: #d97706; }
+.dashboard-action-icon--indigo { background: #e0e7ff; color: #6366f1; }
+.dashboard-action-icon--rose   { background: #ffe4e6; color: #e11d48; }
+.dashboard-action-icon--green  { background: #dcfce7; color: #16a34a; }
 
 .dashboard-action-text {
   display: flex;

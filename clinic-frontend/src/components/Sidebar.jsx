@@ -55,6 +55,8 @@ const Sidebar = ({ isOpen, onClose }) => {
       <div className="sidebar-section">
         <span className="sidebar-section-title">Main Menu</span>
         <nav className="sidebar-nav">
+
+          {/* Dashboard */}
           <NavLink to="/dashboard" onClick={onClose} className={({ isActive }) => `sidebar-nav-item ${isActive ? "active" : ""}`}>
             <svg className="sidebar-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -65,6 +67,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Dashboard</span>
           </NavLink>
 
+          {/* Register Patient */}
           <NavLink to="/add-patient" onClick={onClose} className={({ isActive }) => `sidebar-nav-item ${isActive ? "active" : ""}`}>
             <svg className="sidebar-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -75,6 +78,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Register Patient</span>
           </NavLink>
 
+          {/* Patient List */}
           <NavLink to="/patients" onClick={onClose} className={({ isActive }) => `sidebar-nav-item ${isActive ? "active" : ""}`}>
             <svg className="sidebar-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -85,7 +89,18 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Patient List</span>
           </NavLink>
 
-          {/* ✅ Appointments now active */}
+          {/* Doctors — NEW */}
+          <NavLink to="/doctors" onClick={onClose} className={({ isActive }) => `sidebar-nav-item ${isActive ? "active" : ""}`}>
+            <svg className="sidebar-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+              <line x1="12" y1="14" x2="12" y2="17" />
+              <line x1="10.5" y1="15.5" x2="13.5" y2="15.5" />
+            </svg>
+            <span>Doctors</span>
+          </NavLink>
+
+          {/* Appointments */}
           <NavLink to="/appointments" onClick={onClose} className={({ isActive }) => `sidebar-nav-item ${isActive ? "active" : ""}`}>
             <svg className="sidebar-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -96,6 +111,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Appointments</span>
           </NavLink>
 
+          {/* Billing — disabled */}
           <NavLink
             to="/billing"
             className={({ isActive }) => `sidebar-nav-item disabled ${isActive ? "active" : ""}`}
@@ -107,6 +123,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Billing</span>
             <span className="sidebar-badge">Soon</span>
           </NavLink>
+
         </nav>
       </div>
 

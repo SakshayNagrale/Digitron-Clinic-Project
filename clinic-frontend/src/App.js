@@ -7,6 +7,7 @@ import PatientRegister from "./pages/PatientRegister";
 import PatientList from "./pages/PatientList";
 import PatientProfile from "./pages/PatientProfile";
 import Appointments from "./pages/Appointments";
+import DoctorList from "./pages/DoctorList";
 
 // Protected route wrapper
 const ProtectedRoute = ({ children }) => {
@@ -37,6 +38,7 @@ function App() {
           <Route path="patients" element={<PatientList />} />
           <Route path="patients/:id" element={<PatientProfile />} />
           <Route path="appointments" element={<Appointments />} />
+          <Route path="doctors" element={<DoctorList/>}/>
         </Route>
 
         {/* Fallback */}

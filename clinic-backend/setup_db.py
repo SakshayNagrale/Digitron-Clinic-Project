@@ -1,8 +1,10 @@
 import sqlite3
 import hashlib
 
+
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
+
 
 conn = sqlite3.connect("database.db")
 cursor = conn.cursor()
@@ -43,21 +45,34 @@ CREATE TABLE IF NOT EXISTS staff (
 )
 """)
 
+# Doctor table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS doctor (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    specialization TEXT NOT NULL,
+    contact TEXT NOT NULL,
+    available INTEGER NOT NULL DEFAULT 1
+)
+""")
+
 # Appointment table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS appointment (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     patient_id INTEGER NOT NULL,
+    doctor_id INTEGER,
     doctor_name TEXT NOT NULL,
     appointment_date TEXT NOT NULL,
     appointment_time TEXT NOT NULL,
     reason TEXT,
     status TEXT NOT NULL DEFAULT 'scheduled',
-    FOREIGN KEY (patient_id) REFERENCES patient(id)
+    FOREIGN KEY (patient_id) REFERENCES patient(id),
+    FOREIGN KEY (doctor_id) REFERENCES doctor(id)
 )
 """)
 
-# Seed default admin user (admin / admin123)
+# Seed default admin user
 existing = cursor.execute(
     "SELECT id FROM staff WHERE username = 'admin'"
 ).fetchone()
@@ -65,7 +80,7 @@ existing = cursor.execute(
 if not existing:
     cursor.execute(
         "INSERT INTO staff (name, username, password, role) VALUES (?, ?, ?, ?)",
-        ("Clinic Staff", "admin", hash_password("admin123"), "Reception")
+        ("Clinic Staff", "admin", hash_password("admin123"), "Reception"),
     )
     print("Default admin user created: admin / admin123")
 else:
