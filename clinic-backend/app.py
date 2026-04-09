@@ -13,7 +13,7 @@ register_appointment_routes(app)
 
 @app.route("/")
 def home():
-    return {"message": "Digitron Clinic Backend Running"}
+    return {"message": "Backend is running on port"}
 
 if __name__ == "__main__":
     app.run(debug=True)
