@@ -1,14 +1,117 @@
+/* ================================
+   Layout 
+   ================================ */
+
+
 .layout {
   display: flex;
-  height: 100vh;        /* FIXED height */
-  overflow: hidden;    /* Prevent double scroll */
+  height: 100vh;
+  height: 100dvh;
+  background: #0f172a;
+  position: relative;
+  /* NOTE: overflow: hidden was REMOVED - this was blocking scroll */
 }
 
 .layout-content {
-  margin-left: 240px;
-  width: calc(100% - 240px);
-  height: 100vh;       /* FIX */
-  background: #f4f7fb;
-  padding: 20px 30px;
-  overflow-y: auto;    /* Scroll only when needed */
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  margin-left: 264px;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  padding: 36px 44px;
+  background: #f1f5f9;
+
+  /* smooth iOS scrolling */
+  -webkit-overflow-scrolling: touch;
+
+  /* custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(14, 124, 107, 0.2) transparent;
+}
+
+.layout-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.layout-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layout-content::-webkit-scrollbar-thumb {
+  background: rgba(14, 124, 107, 0.2);
+  border-radius: 20px;
+}
+
+.layout-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 124, 107, 0.35);
+}
+
+/* --- Mobile hamburger button (hidden on desktop) --- */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #1e293b;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: #f1f5f9;
+}
+
+/* --- Overlay behind sidebar on mobile --- */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 150;
+  animation: overlayFadeIn 0.2s ease;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- Responsive: Tablet & Mobile (768px and below) --- */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+  .layout-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 80px 24px 28px;
+  }
+}
+
+/* --- Responsive: Small Phone --- */
+@media (max-width: 480px) {
+  .layout-content {
+    padding: 76px 16px 20px;
+  }
 }

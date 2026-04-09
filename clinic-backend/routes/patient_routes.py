@@ -10,9 +10,8 @@ def register_patient_routes(app):
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        # 🔍 CHECK FOR DUPLICATE PATIENT (BY CONTACT NUMBER)
         existing_patient = cursor.execute(
-            "SELECT id FROM patient WHERE        contactNumber = ?    ",
+            "SELECT id FROM patient WHERE contactNumber = ?",
             (data["contactNumber"],)
         ).fetchone()
 
@@ -22,15 +21,13 @@ def register_patient_routes(app):
                 "error": "Patient with this contact number is already registered"
             }), 400
 
-        # ✅ INSERT ONLY IF NOT DUPLICATE
         cursor.execute(
-            "INSERT INTO patient (patientName, age, gender, contactNumber) VALUES (?, ?, ?, ?) ",
+            "INSERT INTO patient (patientName, age, gender, contactNumber) VALUES (?, ?, ?, ?)",
             (data["patientName"], data["age"], data["gender"], data["contactNumber"])
         )
 
         conn.commit()
         conn.close()
-
         return jsonify({"message": "Patient registered successfully"})
 
     @app.route("/patients", methods=["GET"])
@@ -38,33 +35,8 @@ def register_patient_routes(app):
         conn = get_db_connection()
         rows = conn.execute("SELECT * FROM patient").fetchall()
         conn.close()
-
         return jsonify([dict(row) for row in rows])
-    
-    @app.route("/delete-patient/<int:patient_id>", methods=["DELETE"])
-    def delete_patient(patient_id):
-        conn = get_db_connection()
-        cursor = conn.cursor()
 
-        # 1️⃣ Delete treatments first
-        cursor.execute(
-            "DELETE FROM treatment WHERE patient_id = ?",
-            (patient_id,)
-        )
-
-        # 2️⃣ Delete patient
-        cursor.execute(
-            "DELETE FROM patient WHERE id = ?",
-            (patient_id,)
-        )
-
-        conn.commit()
-        conn.close()
-
-        return jsonify({"message": "Patient and related treatments deleted successfully"})
-
-    from datetime import datetime
-    # Get single patient
     @app.route("/patients/<int:patient_id>", methods=["GET"])
     def get_patient(patient_id):
         conn = get_db_connection()
@@ -78,15 +50,66 @@ def register_patient_routes(app):
 
         return jsonify(dict(patient))
 
-
-    # Add treatment
-    @app.route("/add-treatment", methods=["POST"])
-    def add_treatment():
+    # ✅ NEW: Edit patient
+    @app.route("/edit-patient/<int:patient_id>", methods=["PUT"])
+    def edit_patient(patient_id):
         data = request.json
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
+        # Check patient exists
+        existing = cursor.execute(
+            "SELECT id FROM patient WHERE id = ?", (patient_id,)
+        ).fetchone()
+
+        if not existing:
+            conn.close()
+            return jsonify({"error": "Patient not found"}), 404
+
+        # Check contact number not taken by another patient
+        duplicate = cursor.execute(
+            "SELECT id FROM patient WHERE contactNumber = ? AND id != ?",
+            (data["contactNumber"], patient_id)
+        ).fetchone()
+
+        if duplicate:
+            conn.close()
+            return jsonify({"error": "This contact number belongs to another patient"}), 400
+
+        cursor.execute("""
+            UPDATE patient
+            SET patientName = ?, age = ?, gender = ?, contactNumber = ?
+            WHERE id = ?
+        """, (
+            data["patientName"],
+            data["age"],
+            data["gender"],
+            data["contactNumber"],
+            patient_id
+        ))
+
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Patient updated successfully"})
+
+    @app.route("/delete-patient/<int:patient_id>", methods=["DELETE"])
+    def delete_patient(patient_id):
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM treatment WHERE patient_id = ?", (patient_id,))
+        cursor.execute("DELETE FROM patient WHERE id = ?", (patient_id,))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Patient and related treatments deleted successfully"})
+
+    from datetime import datetime
+
+    @app.route("/add-treatment", methods=["POST"])
+    def add_treatment():
+        data = request.json
+        conn = get_db_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO treatment (patient_id, diagnosis, medicines, notes, date)
             VALUES (?, ?, ?, ?, ?)
@@ -97,14 +120,10 @@ def register_patient_routes(app):
             data["notes"],
             datetime.now().strftime("%Y-%m-%d")
         ))
-
         conn.commit()
         conn.close()
-
         return jsonify({"message": "Treatment added"})
 
-
-    # Get treatments for patient
     @app.route("/treatments/<int:patient_id>", methods=["GET"])
     def get_treatments(patient_id):
         conn = get_db_connection()
@@ -113,11 +132,8 @@ def register_patient_routes(app):
             (patient_id,)
         ).fetchall()
         conn.close()
-
         return jsonify([dict(t) for t in treatments])
 
-
-    # Delete treatment
     @app.route("/delete-treatment/<int:treatment_id>", methods=["DELETE"])
     def delete_treatment(treatment_id):
         conn = get_db_connection()
@@ -125,7 +141,6 @@ def register_patient_routes(app):
         cursor.execute("DELETE FROM treatment WHERE id = ?", (treatment_id,))
         conn.commit()
         conn.close()
-
         return jsonify({"message": "Treatment deleted"})
 
     @app.route("/treatments", methods=["GET"])
@@ -138,25 +153,19 @@ def register_patient_routes(app):
     @app.route("/dashboard-stats", methods=["GET"])
     def dashboard_stats():
         conn = get_db_connection()
-
-        total_patients = conn.execute(
-            "SELECT COUNT(*) FROM patient"
-        ).fetchone()[0]
-
-        total_treatments = conn.execute(
-            "SELECT COUNT(*) FROM treatment"
-        ).fetchone()[0]
-
+        total_patients = conn.execute("SELECT COUNT(*) FROM patient").fetchone()[0]
+        total_treatments = conn.execute("SELECT COUNT(*) FROM treatment").fetchone()[0]
         today_treatments = conn.execute(
             "SELECT COUNT(*) FROM treatment WHERE date = DATE('now')"
         ).fetchone()[0]
-
+        today_appointments = conn.execute(
+            "SELECT COUNT(*) FROM appointment WHERE appointment_date = DATE('now')"
+        ).fetchone()[0]
         conn.close()
 
         return jsonify({
             "totalPatients": total_patients,
             "totalTreatments": total_treatments,
-            "todayTreatments": today_treatments
+            "todayTreatments": today_treatments,
+            "todayAppointments": today_appointments
         })
-
-        

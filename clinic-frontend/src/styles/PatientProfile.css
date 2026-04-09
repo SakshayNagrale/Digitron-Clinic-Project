@@ -1,229 +1,520 @@
-/* ===============================
-   Patient Profile – Final CSS
-   =============================== */
+/* ================================
+   Patient Profile
+   ================================ */
 
-.patient-profile-page {
-  padding: 30px 20px;
-  background: #f4f7fb;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+.pp-page {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1e293b;
 }
 
-/* Header */
-.patient-profile-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.patient-profile-header h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-  color: #1f2933;
-}
-
-.patient-profile-header p {
-  color: #6b7280;
-  margin-top: 6px;
-}
-
-/* Cards */
-.patient-info-card,
-.treatment-card,
-.treatment-history-card {
-  max-width: 900px;
-  margin: 0 auto 25px;
-  background: white;
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-
-.patient-info-card h2,
-.treatment-card h2,
-.treatment-history-card h2 {
-  margin-bottom: 16px;
-  font-size: 1.4rem;
-  color: #1f2933;
-}
-
-/* Patient Info */
-.patient-info-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  color: #374151;
-}
-
-/* Treatment Form */
-.treatment-form {
+/* --- Loading --- */
+.pp-loading {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.treatment-form input,
-.treatment-form textarea {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
+  align-items: center;
+  gap: 14px;
+  padding: 80px 24px;
+  color: #94a3b8;
   font-size: 0.95rem;
 }
 
-.treatment-form textarea {
+.pp-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #0d9488;
+  border-radius: 50%;
+  animation: pp-spin 0.7s linear infinite;
+}
+
+@keyframes pp-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Header --- */
+.pp-header {
+  margin-bottom: 28px;
+}
+
+.pp-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.pp-subtitle {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* --- Patient Info Card --- */
+.pp-info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.pp-info-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.pp-info-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0d9488, #0e7c6b);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pp-info-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-info-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.pp-info-id {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.pp-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.pp-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 24px;
+  border-right: 1px solid #f1f5f9;
+}
+
+.pp-info-item:last-child {
+  border-right: none;
+}
+
+.pp-info-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pp-info-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* --- Content Grid --- */
+.pp-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* --- Treatment Form Card --- */
+.pp-treatment-form-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.pp-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #1e293b;
+  padding: 18px 24px;
+  margin: 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.pp-section-heading svg {
+  color: #0d9488;
+  flex-shrink: 0;
+}
+
+.pp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.pp-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-form-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.pp-form-input,
+.pp-form-textarea {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: #1e293b;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.pp-form-input::placeholder,
+.pp-form-textarea::placeholder {
+  color: #94a3b8;
+}
+
+.pp-form-input:focus,
+.pp-form-textarea:focus {
+  outline: none;
+  border-color: #0d9488;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.pp-form-textarea {
   resize: vertical;
   min-height: 80px;
 }
 
-.treatment-form button {
-  margin-top: 10px;
-  align-self: flex-start;
-  padding: 10px 20px;
-  border-radius: 8px;
+.pp-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
   border: none;
-  background: #3b82f6;
-  color: white;
+  background: #0d9488;
+  color: #ffffff;
+  font-size: 0.88rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.treatment-form button:hover {
-  background: #2563eb;
+.pp-form-submit:hover {
+  background: #0e7c6b;
+  transform: translateY(-1px);
 }
 
-/* Treatment History */
-.treatment-item {
+.pp-form-submit:active {
+  transform: translateY(0);
+}
+
+/* --- History Card --- */
+.pp-history-card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 16px 18px;
-  margin-bottom: 16px;
-  border-left: 4px solid #3b82f6;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
 }
 
-.treatment-item-header {
+.pp-history-count {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #0d9488;
+  background: #e6f5f2;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.pp-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 24px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.pp-history-empty svg {
+  color: #cbd5e1;
+}
+
+.pp-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+/* --- Treatment Item --- */
+.pp-treatment-item {
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pp-treatment-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.pp-treatment-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
-.treatment-date {
-  font-size: 0.85rem;
-  color: #6b7280;
+.pp-treatment-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
 }
 
-.delete-treatment-btn {
-  background: #ef4444;
+.pp-treatment-date svg {
+  color: #94a3b8;
+}
+
+.pp-treatment-delete {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  color: white;
-  padding: 6px 14px;
+  background: transparent;
+  color: #94a3b8;
   border-radius: 8px;
-  font-size: 0.8rem;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.delete-treatment-btn:hover {
-  background: #dc2626;
+.pp-treatment-delete:hover {
+  background: #fef2f2;
+  color: #ef4444;
 }
 
-.empty-text {
-  color: #6b7280;
+.pp-treatment-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pp-treatment-row {
+  display: flex;
+  gap: 8px;
+}
+
+.pp-treatment-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  min-width: 80px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.pp-treatment-value {
+  font-size: 0.88rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.pp-treatment-notes {
+  color: #64748b;
   font-style: italic;
 }
 
-/* Loading */
-.patient-profile-loading {
-  padding: 60px;
-  text-align: center;
-  font-size: 1.2rem;
-  color: #6b7280;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .patient-info-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .patient-profile-header h1 {
-    font-size: 2rem;
-  }
-}
-/* ===============================
-   Delete Confirmation Modal
-   =============================== */
-
-.modal-overlay {
+/* --- Modal --- */
+.pp-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: pp-overlayIn 0.2s ease;
 }
 
-.modal-box {
-  background: white;
-  max-width: 420px;
+@keyframes pp-overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pp-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 36px 32px;
+  max-width: 400px;
   width: 90%;
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-  animation: modalFade 0.2s ease;
+  text-align: center;
+  animation: pp-modalIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.modal-box h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-  color: #1f2933;
+@keyframes pp-modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.modal-box p {
-  font-size: 0.95rem;
-  color: #4b5563;
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-.modal-actions {
+.pp-modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fef2f2;
+  color: #ef4444;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.pp-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px;
+}
+
+.pp-modal-text {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.pp-modal-actions {
+  display: flex;
   gap: 12px;
+  justify-content: center;
 }
 
-.modal-cancel-btn {
-  background: #e5e7eb;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.modal-cancel-btn:hover {
-  background: #d1d5db;
-}
-
-.modal-delete-btn {
-  background: #ef4444;
-  border: none;
-  color: white;
-  padding: 8px 18px;
-  border-radius: 8px;
+.pp-modal-btn {
+  padding: 10px 24px;
+  font-size: 0.88rem;
   font-weight: 600;
+  font-family: inherit;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.modal-delete-btn:hover {
+.pp-modal-btn--cancel {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.pp-modal-btn--cancel:hover {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.pp-modal-btn--delete {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.pp-modal-btn--delete:hover {
   background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
 }
 
-@keyframes modalFade {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .pp-content-grid {
+    grid-template-columns: 1fr;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  .pp-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pp-info-item:nth-child(2) {
+    border-right: none;
+  }
+
+  .pp-info-item:nth-child(1),
+  .pp-info-item:nth-child(2) {
+    border-bottom: 1px solid #f1f5f9;
   }
 }
 
+@media (max-width: 480px) {
+  .pp-title {
+    font-size: 1.35rem;
+  }
+
+  .pp-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pp-info-item {
+    border-right: none !important;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .pp-info-item:last-child {
+    border-bottom: none;
+  }
+
+  .pp-modal {
+    padding: 28px 20px;
+  }
+
+  .pp-modal-actions {
+    flex-direction: column;
+  }
+
+  .pp-modal-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

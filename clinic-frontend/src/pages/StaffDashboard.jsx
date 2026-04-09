@@ -5,13 +5,11 @@ import "../styles/StaffDashboard.css";
 const StaffDashboard = () => {
   const navigate = useNavigate();
 
-  // Static staff info (can come from backend later)
   const staff = {
     name: "Clinic Staff",
     role: "Reception",
   };
 
-  // Dashboard stats from backend
   const [stats, setStats] = useState({
     totalPatients: 0,
     totalTreatments: 0,
@@ -20,7 +18,6 @@ const StaffDashboard = () => {
 
   const [loading, setLoading] = useState(true);
 
-  // Fetch dashboard stats on page load
   useEffect(() => {
     fetchDashboardStats();
   }, []);
@@ -38,94 +35,161 @@ const StaffDashboard = () => {
   };
 
   return (
-    <div className="staff-dashboard-page">
-      {/* Header */}
-      <div className="staff-dashboard-header">
-        <div className="staff-dashboard-header-left">
-          <h1 className="staff-dashboard-title">Clinic Staff Dashboard</h1>
-          <p className="staff-dashboard-subtitle">
-            Manage patients, appointments, and treatments
+    <div className="dashboard">
+      {/* Top Bar */}
+      <header className="dashboard-topbar">
+        <div className="dashboard-topbar-left">
+          <h1 className="dashboard-heading">Dashboard</h1>
+          <p className="dashboard-subheading">
+            Welcome back. Here is your clinic overview.
           </p>
         </div>
+        <div className="dashboard-topbar-right">
+          <div className="dashboard-avatar">
+            {staff.name.charAt(0)}
+          </div>
+          <div className="dashboard-user-meta">
+            <span className="dashboard-user-name">{staff.name}</span>
+            <span className="dashboard-user-role">{staff.role}</span>
+          </div>
+        </div>
+      </header>
 
-        <div className="staff-dashboard-header-right">
-          <div className="staff-info">
-            <div className="staff-avatar">👤</div>
-            <div className="staff-details">
-              <div className="staff-name">{staff.name}</div>
-              <div className="staff-role">{staff.role}</div>
+      {/* Stat Cards */}
+      <section className="dashboard-stats">
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon dashboard-stat-icon--teal">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div className="dashboard-stat-body">
+            <span className="dashboard-stat-value">
+              {loading ? "--" : stats.totalPatients}
+            </span>
+            <span className="dashboard-stat-label">Total Patients</span>
+          </div>
+        </div>
+
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon dashboard-stat-icon--amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          </div>
+          <div className="dashboard-stat-body">
+            <span className="dashboard-stat-value">--</span>
+            <span className="dashboard-stat-label">Appointments</span>
+          </div>
+        </div>
+
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon dashboard-stat-icon--indigo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+          </div>
+          <div className="dashboard-stat-body">
+            <span className="dashboard-stat-value">
+              {loading ? "--" : stats.totalTreatments}
+            </span>
+            <span className="dashboard-stat-label">Treatments</span>
+          </div>
+        </div>
+
+        <div className="dashboard-stat-card">
+          <div className="dashboard-stat-icon dashboard-stat-icon--rose">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
+            </svg>
+          </div>
+          <div className="dashboard-stat-body">
+            <span className="dashboard-stat-value">--</span>
+            <span className="dashboard-stat-label">Pending Bills</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Actions */}
+      <section className="dashboard-actions-section">
+        <h2 className="dashboard-section-title">Quick Actions</h2>
+        <div className="dashboard-actions">
+          <button className="dashboard-action-card" onClick={() => navigate("/add-patient")}>
+            <div className="dashboard-action-icon dashboard-action-icon--teal">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <line x1="19" y1="8" x2="19" y2="14" />
+                <line x1="22" y1="11" x2="16" y2="11" />
+              </svg>
             </div>
-          </div>
-        </div>
-      </div>
+            <div className="dashboard-action-text">
+              <span className="dashboard-action-title">Register Patient</span>
+              <span className="dashboard-action-desc">Add a new patient to the system</span>
+            </div>
+            <svg className="dashboard-action-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
 
-      {/* Stats Section */}
-      <div className="staff-dashboard-stats">
-        <div className="stat-card">
-          <div className="stat-number">
-            {loading ? "—" : stats.totalPatients}
-          </div>
-          <div className="stat-label">Total Patients</div>
-        </div>
+          <button className="dashboard-action-card" onClick={() => navigate("/patients")}>
+            <div className="dashboard-action-icon dashboard-action-icon--amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div className="dashboard-action-text">
+              <span className="dashboard-action-title">Patient List</span>
+              <span className="dashboard-action-desc">View and manage patient records</span>
+            </div>
+            <svg className="dashboard-action-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
 
-        <div className="stat-card">
-          <div className="stat-number">—</div>
-          <div className="stat-label">Appointments</div>
-        </div>
+          <button className="dashboard-action-card dashboard-action-card--disabled">
+            <div className="dashboard-action-icon dashboard-action-icon--indigo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+            </div>
+            <div className="dashboard-action-text">
+              <span className="dashboard-action-title">Appointments</span>
+              <span className="dashboard-action-desc">View and schedule appointments</span>
+            </div>
+            <span className="dashboard-action-soon">Coming Soon</span>
+          </button>
 
-        <div className="stat-card">
-          <div className="stat-number">
-            {loading ? "—" : stats.totalTreatments}
-          </div>
-          <div className="stat-label">Treatments</div>
+          <button className="dashboard-action-card dashboard-action-card--disabled">
+            <div className="dashboard-action-icon dashboard-action-icon--rose">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                <line x1="1" y1="10" x2="23" y2="10" />
+              </svg>
+            </div>
+            <div className="dashboard-action-text">
+              <span className="dashboard-action-title">Billing</span>
+              <span className="dashboard-action-desc">Generate bills and manage payments</span>
+            </div>
+            <span className="dashboard-action-soon">Coming Soon</span>
+          </button>
         </div>
-
-        <div className="stat-card">
-          <div className="stat-number">—</div>
-          <div className="stat-label">Pending Bills</div>
-        </div>
-      </div>
-
-      {/* Actions Section */}
-      <div className="staff-dashboard-actions">
-        <div
-          className="action-card"
-          onClick={() => navigate("/add-patient")}
-        >
-          <div className="action-icon">➕</div>
-          <div className="action-title">Register Patient</div>
-          <div className="action-desc">
-            Add a new patient to the system
-          </div>
-        </div>
-
-        <div
-          className="action-card"
-          onClick={() => navigate("/patients")}
-        >
-          <div className="action-icon">📋</div>
-          <div className="action-title">Patient List</div>
-          <div className="action-desc">
-            View and manage patient records
-          </div>
-        </div>
-
-        <div className="action-card">
-          <div className="action-icon">📅</div>
-          <div className="action-title">Appointments</div>
-          <div className="action-desc">
-            View and schedule appointments
-          </div>
-        </div>
-
-        <div className="action-card">
-          <div className="action-icon">💳</div>
-          <div className="action-title">Billing</div>
-          <div className="action-desc">
-            Generate bills and manage payments
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 };
